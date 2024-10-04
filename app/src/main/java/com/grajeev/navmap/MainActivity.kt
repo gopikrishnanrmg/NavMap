@@ -33,13 +33,21 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        
+        var bmpTranslator = BMPTranslator()
+
+        bmpTranslator.setMockOrigin(1355,464)
+
+        var targetCoords = bmpTranslator.translatePointWithMockOrigin(1415, 385)
+
+        var translatedPoints = bmpTranslator.vectorScaleTransFormation(targetCoords.first,targetCoords.second)
+
+
         sceneView = findViewById(R.id.arSceneView)
         val camera = sceneView.cameraNode
         val cameraPosition = camera.worldPosition.toVector3()
-        val offsetX = 0.0f // 2 meters to the right
+        val offsetX = translatedPoints.first // 2 meters to the right
         val offsetY = 0.0f // 1 meter up
-        val offsetZ = 0.0f
+        val offsetZ = translatedPoints.second
         val offset = Vector3(offsetX, offsetY, offsetZ)
         val newPosition = Vector3.add(cameraPosition,offset)
 
@@ -69,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 updateObjectScale(sceneView.cameraNode.worldPosition.toVector3(), modelNode)
                 delay(16)
             }
-         }
+        }
     }
 
 
